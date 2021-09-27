@@ -22,7 +22,7 @@
                 }               
             ],
             "outArguments": [],
-            "url": "https://mms-210926.herokuapp.com/journeybuilder/execute",
+            "url": "https://twilio-suhee.herokuapp.com/journeybuilder/execute",
             "verb": "POST",
             "body": "",
             "format": "json",
@@ -31,9 +31,9 @@
         }
     },
     "configurationArguments": {
-      "applicationExtensionKey": "e5a2b753-7426-4764-a41f-4a6c848e53ee",
+      "applicationExtensionKey": "53d6b141-c3f5-4fc2-ae36-8359a63cc4ce",
        "save": {
-           "url": "https://mms-210926.herokuapp.com/journeybuilder/save",
+           "url": "https://twilio-suhee.herokuapp.com/journeybuilder/save",
             "verb": "POST",
             "body": "",
             "format": "json",
@@ -41,7 +41,7 @@
             "timeout": 10000
        },
        "publish": {
-           "url": "https://mms-210926.herokuapp.com/journeybuilder/publish",
+           "url": "https://twilio-suhee.herokuapp.com/journeybuilder/publish",
             "verb": "POST",
             "body": "",
             "format": "json",
@@ -49,7 +49,7 @@
             "timeout": 10000
        },
        "validate": {
-           "url": "https://mms-210926.herokuapp.com/journeybuilder/validate",
+           "url": "https://twilio-suhee.herokuapp.com/journeybuilder/validate",
             "verb": "POST",
             "body": "",
             "format": "json",
@@ -57,7 +57,7 @@
             "timeout": 10000
        },
        "stop": {
-           "url": "https://mms-210926.herokuapp.com/journeybuilder/stop",
+           "url": "https://twilio-suhee.herokuapp.com/journeybuilder/stop",
             "verb": "POST",
             "body": "",
             "format": "json",
