@@ -3,15 +3,19 @@
 var util = require('util');
 
 // Deps
+/*
+path : 파일과 directory 경로 작업을 위한 utility 제공 모듈
+*/
 const Path = require('path');
-const JWT = require(Path.join(__dirname, '..', 'lib', 'jwtDecoder.js'));
+const JWT = require(Path.join(__dirname, '..', 'lib', 'jwtDecoder.js')); //jwtDecoder.js 파일 JWT 변수로 사용 가능
 var http = require('https');
 
 exports.logExecuteData = [];
 
+//log data 저장 후 출력
 function logData(req) {
     exports.logExecuteData.push({
-        body: req.body,
+        body: req.body, 
         headers: req.headers,
         trailers: req.trailers,
         method: req.method,
@@ -64,19 +68,21 @@ exports.edit = function (req, res) {
 /*
  * POST Handler for /save/ route of Activity.
  */
+//app.js의 app.post('/journeybuilder/save/', activity.save ) 호출 후 실행되는 함수
 exports.save = function (req, res) {
     
     console.log("Save");	
     
     // Data from the req and put it in an array accessible to the main app.
 
-    logData(req);
+    logData(req); // log data 저장 후 출력
     res.send(200, 'Save');
 };
 
 /*
  * POST Handler for /execute/ route of Activity.
  */
+//app.js의 app.post('/journeybuilder/execute/', activity.execute ) 호출 후 실행되는 함수
 exports.execute = function (req, res) {
 
     console.log("Execute");	
@@ -99,7 +105,7 @@ exports.execute = function (req, res) {
              console.log("Executed: ",decodedArgs);
              console.log("Executed: ----------------------------------------------------------------------------");
          
-             //logData(req);
+             logData(req);
              res.send(200, 'Execute');
          } else {
              console.error('inArguments invalid.');
@@ -113,6 +119,7 @@ exports.execute = function (req, res) {
 /*
  * POST Handler for /publish/ route of Activity.
  */
+//app.js의 app.post('/journeybuilder/publish/', activity.publish ) 호출 후 실행되는 함수
 exports.publish = function (req, res) {
 
     console.log("Publish");	
@@ -126,6 +133,7 @@ exports.publish = function (req, res) {
 /*
  * POST Handler for /validate/ route of Activity.
  */
+////app.js의 app.post('/journeybuilder/validate/', activity.validate ) 호출 후 실행되는 함수
 exports.validate = function (req, res) {
 
     console.log("Validate");	
