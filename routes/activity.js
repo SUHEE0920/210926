@@ -10,9 +10,10 @@ const Path = require('path');
 const JWT = require(Path.join(__dirname, '..', 'lib', 'jwtDecoder.js')); //jwtDecoder.js 파일 JWT 변수로 사용 가능
 var http = require('https');
 
+//log data 를 담을 logExecuteData 배열 생성
 exports.logExecuteData = [];
 
-//log data 저장 후 출력
+// logExecuteData log data 저장 후 출력
 function logData(req) {
     exports.logExecuteData.push({
         body: req.body, 
@@ -68,7 +69,7 @@ exports.edit = function (req, res) {
 /*
  * POST Handler for /save/ route of Activity.
  */
-//app.js의 app.post('/journeybuilder/save/', activity.save ) 호출 후 실행되는 함수
+// app.js의 app.post('/journeybuilder/save/', activity.save ) 호출 후 실행되는 함수
 exports.save = function (req, res) {
     
     console.log("Save");	
@@ -82,30 +83,36 @@ exports.save = function (req, res) {
 /*
  * POST Handler for /execute/ route of Activity.
  */
-//app.js의 app.post('/journeybuilder/execute/', activity.execute ) 호출 후 실행되는 함수
+// app.js의 app.post('/journeybuilder/execute/', activity.execute ) 호출 후 실행되는 함수
 exports.execute = function (req, res) {
 
     console.log("Execute");	
     console.log("==============b4Decode========================");
     console.log(req.body);
     console.log("==============b4Decode Done===================");
+
+    // reqest의 body decoding....
      JWT(req.body, process.env.jwtSecret, (err, decoded) => {
 
          // verification error -> unauthorized request
+         // 에러 발생시 처리
          if (err) {
              console.error(err);
              return res.status(401).end();
          }
 
+
          if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
             
-             // decoded in arguments
+             // 디코딩 완료된 request body 값 출력
              var decodedArgs = decoded.inArguments[0];
              console.log("Executed: ----------------------------------------------------------------------------");
              console.log("Executed: ",decodedArgs);
              console.log("Executed: ----------------------------------------------------------------------------");
          
-             logData(req);
+             //logData(req);
+             
+             //응답 전송
              res.send(200, 'Execute');
          } else {
              console.error('inArguments invalid.');
@@ -133,7 +140,7 @@ exports.publish = function (req, res) {
 /*
  * POST Handler for /validate/ route of Activity.
  */
-////app.js의 app.post('/journeybuilder/validate/', activity.validate ) 호출 후 실행되는 함수
+// app.js의 app.post('/journeybuilder/validate/', activity.validate ) 호출 후 실행되는 함수
 exports.validate = function (req, res) {
 
     console.log("Validate");	

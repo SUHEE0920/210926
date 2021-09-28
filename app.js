@@ -1,4 +1,5 @@
 'use strict';
+
 // Module Dependencies
 // -------------------
 
@@ -23,7 +24,7 @@ require('request').debug = true; // request 사용시 디버깅 허용
 
 console.log('H02');
 
-/*라우팅 시작 ------------------------*/
+/* express 서버 시작 ------------------------*/
 var app = express();
 
 // Configure Express
@@ -57,7 +58,7 @@ app.use((req, res, next) => {
 
  console.log('INFLOW END ------------------------------------------------------------------------------');
 
-
+/* Routing 시작 ------------------------*/
  // HubExchange Routes
 app.get('/', routes.index ); // https://twilio-suhee.herokuapp.com/ -> ./routes/index.js 안의 index 함수 호출
 app.post('/login', routes.login ); //안쓰임
@@ -72,7 +73,7 @@ app.post('/journeybuilder/execute/', activity.execute );
 
 //app.post('/journeybuilder/execute/', console.log('HERE99') );
 
-//express 서버 시작
+/* HTTP 서버 생성  */
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 

@@ -1,28 +1,40 @@
 define([
+    /* postmonger : frontend용 javascript 라이브러리 */
     'postmonger'
 ], function(
     Postmonger
 ) {
     'use strict';
-
+    
+    /* Session 시작 */
     var connection = new Postmonger.Session();
     var payload = {};
     var lastStepEnabled = false;
     var steps = [ // initialize to the same value as what's set in config.json for consistency
         { "label": "Create SMS Message", "key": "step1" }
     ];
-    var currentStep = steps[0].key;
+    var currentStep = steps[0].key; // currentStep = "step1"
 
+    // HTML 브라우저 실행
     $(window).ready(onRender);
 
-    connection.on('initActivity', initialize);
-    connection.on('requestedTokens', onGetTokens);
-    connection.on('requestedEndpoints', onGetEndpoints);
-
-    connection.on('clickedNext', save);
+    
+    //이벤트와 함수 바인딩---------------------------
+    /*
+    initActivity 이벤트 - initialize() 함수 
+    requestTokens 이벤트 - onGetTokens() 함수
+    requestEndpoints 이벤트 - onGetEndpoints() 함수
+    clickedNext 이벤트 - save() 함수
+    */
+    connection.on('initActivity', initialize); // payload 데이터 초기화
+    connection.on('requestedTokens', onGetTokens);  // 토큰 리턴
+    connection.on('requestedEndpoints', onGetEndpoints);  // REST host URL값 리턴
+    connection.on('clickedNext', save); // next 버튼 클릭시 데이터 저장
     //connection.on('clickedBack', onClickedBack);
     //connection.on('gotoStep', onGotoStep);
 
+    
+    //event 발생 할때마다 Entry Source의 값 가져옴
     var eventDefinitionKey;
     connection.trigger('requestTriggerEventDefinition');
 
@@ -37,16 +49,18 @@ define([
         }
 
     });
+    //-----------------------------------------------
 
-
+    // Session 시작시 실행.
     function onRender() {
         // JB will respond the first time 'ready' is called with 'initActivity'
         connection.trigger('ready');
         connection.trigger('requestTokens');
         connection.trigger('requestEndpoints');
     }
-
-  function initialize(data) {
+  
+  // initActivity 이벤트 시 실행. data 초기화 함수
+    function initialize(data) {
         console.log("Initializing data data: "+ JSON.stringify(data));
         if (data) {
             payload = data;
@@ -84,7 +98,8 @@ define([
 
             })
         });
-
+        
+        // clickedNext 이벤트 실행시 
         connection.trigger('updateButton', {
             button: 'next',
             text: 'done',
@@ -92,18 +107,21 @@ define([
         });
 
     }
-
+    
+    // leagacy와 fuel2token 토큰 리턴. requestTokens 이벤트 시 실행
     function onGetTokens (tokens) {
         // Response: tokens = { token: <legacy token>, fuel2token: <fuel api token> }
         console.log("Tokens function: "+JSON.stringify(tokens));
         //authTokens = tokens;
     }
-
+    
+    // REST host URL값 리턴. requestEndpoints 이벤트 시 실행
     function onGetEndpoints (endpoints) {
         // Response: endpoints = { restHost: <url> } i.e. "rest.s1.qa1.exacttarget.com"
         console.log("Get End Points function: "+JSON.stringify(endpoints));
     }
-
+   
+    // data 값 저장
     function save() {
 
         var accountSid = $('#accountSID').val();
@@ -120,9 +138,11 @@ define([
             "phone": "{{Event."+eventDefinitionKey+".Phone}}"
         }];
 
-        payload['metaData'].isConfigured = true;
+        payload['metaData'].isConfigured = true; // metadata 값 항상 true로 설정
 
         console.log("Payload on SAVE function: "+JSON.stringify(payload));
+        
+        // activity 종료 후 payload에 데이터 저장
         connection.trigger('updateActivity', payload);
 
     }                    
