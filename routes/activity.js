@@ -13,7 +13,7 @@ var http = require('https');
 //log data 를 담을 logExecuteData 배열 생성
 exports.logExecuteData = [];
 
-// logExecuteData log data 저장 후 출력
+// logExecuteData에 log data 저장 후 출력
 function logData(req) {
     exports.logExecuteData.push({
         body: req.body, 

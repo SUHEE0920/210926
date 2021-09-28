@@ -61,22 +61,31 @@ define([
   
   // initActivity 이벤트 시 실행. data 초기화 함수
     function initialize(data) {
+        // JSON.stringify 함수 : JSON 객체를 String 객체로 변환
         console.log("Initializing data data: "+ JSON.stringify(data));
         if (data) {
             payload = data;
         }    
-
+        
+        /* Data 초기화 */
+        // payload에 데이터 존재 o -> hasInArguments는 1
+        // payload에 데이터 존재 x -> hasInArguments는 0
         var hasInArguments = Boolean(
             payload['arguments'] &&
             payload['arguments'].execute &&
             payload['arguments'].execute.inArguments &&
             payload['arguments'].execute.inArguments.length > 0
          );
-
+       
+        // hasInArguments가 0 -> inArguments = payload['arguments'].execute.inArguments
+        // hasInArguments가 1 -> inArguments = {}
+        // 즉, inArguments = {}
         var inArguments = hasInArguments ? payload['arguments'].execute.inArguments : {};
-
+        
+        
         console.log('Has In arguments: '+JSON.stringify(inArguments));
-
+        
+        // inArguments 에 index.html 페이지에서 받아온 값 전달
         $.each(inArguments, function (index, inArgument) {
             $.each(inArgument, function (key, val) {
 
