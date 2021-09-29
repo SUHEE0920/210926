@@ -75,9 +75,11 @@ exports.save = function (req, res) {
     console.log("Save");	
     
     // Data from the req and put it in an array accessible to the main app.
-
-    logData(req); // log data 저장 후 출력
-    res.send(200, 'Save');
+    
+    // log data 저장 후 출력
+    logData(req); 
+    // 응답 메세지 전송. res.send(status, body)
+    res.send(200, 'Save'); 
 };
 
 /*
@@ -112,7 +114,7 @@ exports.execute = function (req, res) {
          
              //logData(req);
              
-             //응답 전송
+             // 응답 메세지 전송. res.send(status, body)
              res.send(200, 'Execute');
          } else {
              console.error('inArguments invalid.');
@@ -132,9 +134,10 @@ exports.publish = function (req, res) {
     console.log("Publish");	
     
     // Data from the req and put it in an array accessible to the main app.
-
-     logData(req);
-     res.send(200, 'Publish');
+    // log data 저장 후 출력
+    logData(req);
+    // 응답 메세지 전송. res.send(status, body)
+    res.send(200, 'Publish');
 };
 
 /*
@@ -146,8 +149,9 @@ exports.validate = function (req, res) {
     console.log("Validate");	
     
     // Data from the req and put it in an array accessible to the main app.
-
+    // log data 저장 후 출력
     logData(req);
+    // 응답 메세지 전송. res.send(status, body)
     res.send(200, 'Validate');
 };
 
