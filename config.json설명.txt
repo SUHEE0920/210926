@@ -1,0 +1,129 @@
+{
+    "workflowApiVersion": "1.1", // custom activity 버전 정보 
+    "metaData": {// UI 관련 메타 데이터
+        "icon": "images/icon_mmstw.png", // custom activity에서 보여질 icon
+        "iconSmall": "images/iconSmall.png",
+        "category": "message" // custom activity의 type.(message,customer,flow 등)
+    },
+    "type": "REST",// activity type. (MultiCriteriaDecision, DataExtensionUpdate,EMAILV2,EngagementDecision,randomSplit,Wait,Rest 등)
+    "lang": { // custom activity 언어
+        "en-US": {
+            "name": "mmsTW", // journey builder 캔버스에서 activity list에 보여질 이름
+          "description": "A Template for a custom Journey Builder activity", //activity 설명
+          "step1Label": "Configure Activity"
+        }
+    },
+    "arguments": { //activity 실행될 때마다 보내지는 정보
+        "execute": { // activity에서 각 contact 마다 API에서 execute 함수 호출
+            "inArguments": [// activity에서 configured 필요한 data
+                {
+                  "email": "{{Contact.Default.EmailAddress}}",
+                  "to": "{{Contact.Attribute.TwilioV1.TwilioNumber}}" 
+                }               
+            ],
+            "outArguments": [], // request시 response body의 key·value 쌍
+            "url": "https://twilio-suhee.herokuapp.com/journeybuilder/execute", // journey가 실행되는 endpoint
+            "verb": "POST", //http 요청 방식
+            "body": "", // request의 body값
+            "format": "json", // request 시 body값의 형식
+            "useJwt": true, // JWT 사용 여부
+            "timeout": 10000 // 타임아웃 시간
+        }
+    },
+    "configurationArguments": {//activity의 모든 configuration argument. publish빼고 모두 optional
+      "applicationExtensionKey": "53d6b141-c3f5-4fc2-ae36-8359a63cc4ce", // custom activity의 unique key값
+       "save": {// journey를 save 했을 때의 endpoint 값
+           "url": "https://twilio-suhee.herokuapp.com/journeybuilder/save",
+            "verb": "POST", //http 요청 방식
+            "body": "", // request의 body값
+            "format": "json", // request시 body값의 형식
+            "useJwt": false, // JWT 사용 여부
+            "timeout": 10000 // 타임아웃 시간
+       },
+       "publish": {// journey를 save 했을 때의 endpoint 값
+           "url": "https://twilio-suhee.herokuapp.com/journeybuilder/publish",
+            "verb": "POST",//http 요청 방식
+            "body": "",// request의 body값
+            "format": "json",// request시 body값의 형식
+            "useJwt": false,// JWT 사용 여부
+            "timeout": 10000// 타임아웃 시간
+       },
+       "validate": {
+           "url": "https://twilio-suhee.herokuapp.com/journeybuilder/validate",
+            "verb": "POST",//http 요청 방식
+            "body": "",// request의 body값
+            "format": "json",// request시 body값의 형식
+            "useJwt": false,// JWT 사용 여부
+            "timeout": 10000// 타임아웃 시간
+       },
+       "stop": {
+           "url": "https://twilio-suhee.herokuapp.com/journeybuilder/stop",
+            "verb": "POST",//http 요청 방식
+            "body": "",// request의 body값
+            "format": "json",// request시 body값의 형식
+            "useJwt": false,// JWT 사용 여부
+            "timeout": 10000// 타임아웃 시간
+       }
+    },
+    "wizardSteps": [
+       { "label": "Create SMS Message", "key": "step1" }
+    ],
+    "userInterfaces": { // UI configuration 및 endpoints
+       "configModal": {
+           "height": 600, //iframe의 height
+           "width": 800, //iframe의 width
+           "fullscreen": false // 전체 화면 사용 여부
+       }
+    },
+    "schema": { //위의 inArguments와 outArguments의 스키마 정의
+        "arguments": {
+            "execute": {
+                "inArguments": [
+                    {
+                        "accountSid": { // inArguments이름
+                            "dataType": "String", // data 타입
+                            "isNullable": false, //null값 여부
+                            "direction": "out"   
+                        }
+                    },                    
+                    {
+                        "authToken": {
+                            "dataType": "String",
+                            "isNullable": false,
+                            "direction": "out"   
+                        }
+                    },                    
+                    {
+                        "from": {
+                            "dataType": "String",
+                            "isNullable": true,
+                            "direction": "out"   
+                        }
+                    },                    
+                    {
+                        "to": {
+                            "dataType": "Phone",
+                            "isNullable": false,
+                            "direction": "out"   
+                        }
+                    },
+                    {
+                        "body": {
+                            "dataType": "String",
+                            "isNullable": false,
+                            "direction": "out"   
+                        }
+                    },                    
+                    {
+                        "email": {
+                            "dataType": "Email",
+                            "isNullable": true,
+                            "direction": "out"
+                        }
+                    }
+                ],
+                "outArguments": []
+            }
+        }
+    }
+}
